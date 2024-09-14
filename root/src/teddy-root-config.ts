@@ -7,7 +7,7 @@ import {
 import microfrontendLayout from "./microfrontend-layout.html";
 import "./global/styles.css";
 
-const updateCookies = () => {
+const updateCookies = async () => {
   // Exemplo de como definir um cookie (usando document.cookie)
   const date = new Date();
   document.cookie = `last_visit=${date.toISOString()}`;

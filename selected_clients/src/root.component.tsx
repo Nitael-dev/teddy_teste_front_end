@@ -26,7 +26,6 @@ export default function Root(props) {
   });
 
   const handleSelect = (id: number) => {
-    console.log(id);
     if (!!selectedClients.find((e) => e === id)) {
       setSelectedClients((old) => old.filter((e) => e !== id));
     } else {
