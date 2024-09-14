@@ -25,3 +25,12 @@
   color: var(--primary);
   font-size: 0.875rem;
 }
+
+.default_button:disabled {
+  background-color: var(--backdrop);
+
+  padding: 16px 0;
+
+  font-size: 1.5rem;
+  color: var(--white);
+}

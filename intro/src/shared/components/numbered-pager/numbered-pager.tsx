@@ -188,8 +188,9 @@ export function NumberedPager({ pages }: NumberedPagerProps) {
 
   return (
     <div className="pager_wrapper">
-      {inlinePages.map(({ page, isSelected }) => (
+      {inlinePages.map(({ page, isSelected }, index) => (
         <div
+          key={`pager_page_${index}`}
           className={`pager_item ${
             typeof page === "number" && page === selectedPage ? "selected" : ""
           }`}

@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   PageContainer,
   DefaultButton,
@@ -18,26 +19,84 @@ import {
   EditModal,
   ExcludeModal,
 } from "./modals";
-import {
-  RawClientProps,
-  UserDTO,
-} from "../../intro/src/shared/interfaces/clients";
+import { UserDTO } from "../../intro/src/shared/interfaces/clients";
+import { useCookies } from "react-cookie";
 
 const SELECTABLE_LIMITS = [16, 12, 8, 4];
 
 export default function Root(props) {
+  const [cookies, setCookie] = useCookies<
+    string,
+    {
+      clients_list: string;
+      selecteds_list: string;
+    }
+  >(["clients_list", "selecteds_list"], {
+    doNotParse: true,
+  });
+
   const [limit, setLimit] = useState(16);
 
   const [clients, setClients] = useState<UserDTO[]>(CLIENTS_MOCK);
+  const [savedClients, setSavedClients] = useState<UserDTO[]>([]);
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [trashModalOpen, setTrashModalOpen] = useState(false);
   const [conclusionModalOpen, setConclusionModalOpen] = useState(false);
 
-  const [selectedClient, setSelectedClient] = useState<RawClientProps>(
-    {} as RawClientProps
-  );
+  const [selectedClient, setSelectedClient] = useState<UserDTO>({} as UserDTO);
+
+  const loadData = async () => {
+    try {
+      const created =
+        (await typeof cookies.clients_list) === "string" &&
+        (await cookies.clients_list.length) > 0
+          ? JSON.parse(await cookies.clients_list)
+          : undefined;
+
+      if (!!created) {
+        setClients((old) => {
+          return [created, ...old];
+        });
+        setCookie("clients_list", "");
+      }
+
+      const saved =
+        (await typeof cookies.selecteds_list) === "string"
+          ? JSON.parse(await cookies.selecteds_list)
+          : [];
+      console.log("asdasd", saved);
+      if (saved.length > 0) {
+        setSavedClients([...(JSON.parse(saved) as UserDTO[])]);
+      } else {
+        setSavedClients([]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSelect = async (selected: UserDTO, unselect?: boolean) => {
+    const prevSelecteds: UserDTO[] =
+      (await typeof cookies.selecteds_list) === "string"
+        ? await JSON.parse(cookies.selecteds_list)
+        : [];
+
+    if (unselect) {
+      await setCookie(
+        "selecteds_list",
+        JSON.stringify(prevSelecteds.filter(({ id }) => id !== selected.id))
+      );
+      setSavedClients(prevSelecteds.filter(({ id }) => id !== selected.id));
+    } else {
+      await setCookie(
+        "selecteds_list",
+        JSON.stringify([selected, ...prevSelecteds])
+      );
+      setSavedClients([selected, ...prevSelecteds]);
+    }
+  };
 
   const handleModal = (type: "create" | "edit" | "trash" | "conclusion") => {
     switch (type) {
@@ -64,6 +123,26 @@ export default function Root(props) {
     setClients((old) => old.filter((__, index) => index !== id));
   };
 
+  const editClientAction = (props: UserDTO) => {
+    setClients((old) =>
+      old.map((item, index) => {
+        if (index === props.id) {
+          return props;
+        } else {
+          return item;
+        }
+      })
+    );
+  };
+
+  const createClientAction = (newClient: UserDTO) => {
+    setClients((old) => [newClient, ...old]);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [cookies]);
+
   return (
     <>
       <PageContainer
@@ -78,7 +157,7 @@ export default function Root(props) {
       >
         <div className="top_wrapper">
           <span className="info_title">
-            <strong>{CLIENTS_MOCK.length} </strong>
+            <strong>{clients.length} </strong>
             clientes encontrados:
           </span>
           <div className="select_wrapper">
@@ -89,8 +168,12 @@ export default function Root(props) {
                 handleLimit(value);
               }}
             >
-              {SELECTABLE_LIMITS.map((val) => (
-                <option value={val} selected={val === limit}>
+              {SELECTABLE_LIMITS.map((val, index) => (
+                <option
+                  key={`select_option_${index}`}
+                  value={val}
+                  selected={val === limit}
+                >
                   {val}
                 </option>
               ))}
@@ -100,6 +183,7 @@ export default function Root(props) {
         <FlexList
           containerStyle={{
             display: "flex",
+            width: "100%",
             flexWrap: "wrap",
             gap: "1.25rem",
           }}
@@ -107,6 +191,13 @@ export default function Root(props) {
           renderItem={(item, index) => {
             return (
               <ClientCard
+                key={`client_card_${index}`}
+                selected={
+                  savedClients.findIndex(({ id }) => id === item.id) !== -1
+                }
+                onPlusClick={(unselect) => {
+                  handleSelect(item, unselect);
+                }}
                 onEditClick={() => {
                   setSelectedClient({
                     ...item,
@@ -142,27 +233,29 @@ export default function Root(props) {
       />
       <CreateModal
         isOpen={createModalOpen}
-        handleModal={() => {
-          if (createModalOpen === true) {
+        handleModal={(concluded?: true) => {
+          if (createModalOpen === true && concluded) {
             setTimeout(() => handleModal("conclusion"), 300);
           }
           handleModal("create");
         }}
+        createAction={createClientAction}
       />
       <EditModal
         isOpen={editModalOpen}
         client={selectedClient}
-        handleModal={() => {
-          if (editModalOpen === true) {
+        handleModal={(concluded?: true) => {
+          if (editModalOpen === true && concluded) {
             setTimeout(() => handleModal("conclusion"), 300);
           }
           handleModal("edit");
         }}
+        editAction={editClientAction}
       />
       <ExcludeModal
         isOpen={trashModalOpen}
-        handleModal={() => {
-          if (trashModalOpen === true) {
+        handleModal={(concluded?: true) => {
+          if (trashModalOpen === true && concluded) {
             setTimeout(() => handleModal("conclusion"), 300);
           }
           handleModal("trash");

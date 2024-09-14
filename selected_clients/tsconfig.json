@@ -2,10 +2,7 @@
   "extends": "ts-config-single-spa",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "declarationDir": "dist",
-    "paths": {
-      "@shared": ["../intro/src/shared/*"]
-    }
+    "declarationDir": "dist"
   },
   "files": ["src/teddy-selected-clients.tsx"],
   "include": ["src/**/*"],

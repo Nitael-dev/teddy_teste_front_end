@@ -14,7 +14,13 @@
 
   border-radius: 4px;
 
+  background-color: var(--white);
+
   box-shadow: 0px 0px 4px 0px var(--shadow);
+}
+
+.client_card_wrapper.selected {
+  background-color: var(--highlight);
 }
 
 .client_card_row {

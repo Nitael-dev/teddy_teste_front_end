@@ -1,18 +1,50 @@
+import { useEffect, useState } from "react";
 import {
   DefaultButton,
   DefaultInput,
-} from "../../../../intro/src/shared/components";
-import { RawClientProps } from "../../../../intro/src/shared/interfaces/clients";
+} from "../../../../intro/src/shared/components/index";
 import { ModalFrame } from "../modal-frame/modal-frame";
+import { moneyMask } from "../../utils/money-mask";
+import { UserDTO } from "../../../../intro/src/shared/interfaces/clients";
 
 interface FormModalProps {
   isOpen: boolean;
-  client: RawClientProps;
+  client: UserDTO;
 
-  handleModal(): void;
+  handleModal(concluded?: true): void;
+  editAction(newClient: UserDTO): void;
 }
 
-export function EditModal({ isOpen, client, handleModal }: FormModalProps) {
+export function EditModal({
+  isOpen,
+  client,
+  handleModal,
+  editAction,
+}: FormModalProps) {
+  const [name, setName] = useState("");
+  const [salary, setSalary] = useState("");
+  const [companyValuation, setCompanyValuation] = useState("");
+
+  const handleSubmit = () => {
+    editAction({
+      ...client,
+      name,
+      // @ts-ignore
+      salary,
+      // @ts-ignore
+      companyValuation,
+    });
+    setName("");
+    setSalary("");
+    setCompanyValuation("");
+  };
+
+  useEffect(() => {
+    setName(client.name);
+    setSalary(String(client.salary));
+    setCompanyValuation(String(client.companyValuation));
+  }, [client]);
+
   return (
     <ModalFrame
       isOpen={isOpen}
@@ -25,6 +57,8 @@ export function EditModal({ isOpen, client, handleModal }: FormModalProps) {
           padding: "10px 12px",
           fontSize: "1rem",
         }}
+        value={name}
+        onChange={({ target: { value } }) => setName(value)}
         placeholderSize="lg"
         placeholder="Digite o nome:"
       />
@@ -34,6 +68,10 @@ export function EditModal({ isOpen, client, handleModal }: FormModalProps) {
           padding: "10px 12px",
           fontSize: "1rem",
         }}
+        value={salary}
+        onChange={({ target: { value } }) =>
+          setSalary(moneyMask(value.replace(/[^0-9]/g, "")))
+        }
         placeholderSize="lg"
         placeholder="Digite o salário:"
       />
@@ -43,13 +81,19 @@ export function EditModal({ isOpen, client, handleModal }: FormModalProps) {
           padding: "10px 12px",
           fontSize: "1rem",
         }}
+        value={companyValuation}
+        onChange={({ target: { value } }) =>
+          setCompanyValuation(moneyMask(value.replace(/[^0-9]/g, "")))
+        }
         placeholderSize="lg"
         placeholder="Digite o valor da empresa:"
       />
       <DefaultButton
         onClick={() => {
-          handleModal();
+          handleModal(true);
+          handleSubmit();
         }}
+        disabled={salary.length <= 4 && companyValuation.length <= 4}
         style={{
           marginTop: 5,
           padding: "12px 0",

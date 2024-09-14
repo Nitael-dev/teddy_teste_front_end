@@ -33,7 +33,10 @@ export function ModalFrame({
       }}
       className="modal_wrapper"
     >
-      <div className={`modal_backdrop ${!isOpen ? "closed" : ""}`} />
+      <div
+        onClick={() => handleModal()}
+        className={`modal_backdrop ${!isOpen ? "closed" : ""}`}
+      />
       <div className={`modal_container ${!isOpen ? "closed" : ""}`}>
         <div className="modal_top">
           <strong>{title}</strong>

@@ -14,5 +14,5 @@ RUN yarn build
 
 RUN npm i -g http-server
 
-EXPOSE 9000
-CMD [ "http-server", "dist" , "-p", "9000" ]
+EXPOSE 8083
+CMD [ "http-server", "dist" , "-p", "8083" ]

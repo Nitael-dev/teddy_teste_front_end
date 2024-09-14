@@ -4,13 +4,10 @@ export interface ClientProps {
 }
 
 export interface UserDTO {
-  name: string;
-  salary: number;
-  companyValuation: number;
-}
-
-export interface RawClientProps extends UserDTO {
   id: number;
+  name: string;
+  salary: number | string;
+  companyValuation: number | string;
 }
 
 export interface UpdateUserDTO {

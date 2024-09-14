@@ -1,4 +1,4 @@
-import { DefaultButton } from "../../../../intro/src/shared/components";
+import { DefaultButton } from "../../../../intro/src/shared/components/index";
 import { ClientProps } from "../../../../intro/src/shared/interfaces/clients/index";
 import { ModalFrame } from "../modal-frame/modal-frame";
 
@@ -6,7 +6,7 @@ interface ExcludeModalProps {
   isOpen: boolean;
   client: ClientProps;
 
-  handleModal(): void;
+  handleModal(concluded?: true): void;
   excludeAction(id: number): void;
 }
 
@@ -27,7 +27,7 @@ export function ExcludeModal({
       <span>Você está prestes a excluir o cliente: {client?.name}</span>
       <DefaultButton
         onClick={() => {
-          handleModal();
+          handleModal(true);
           handleAction();
           excludeAction(client.id);
         }}

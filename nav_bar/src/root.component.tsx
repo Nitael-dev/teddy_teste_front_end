@@ -6,10 +6,12 @@ import "./root.style.css";
 import LogoPNG from "./assets/logo.png";
 
 export default function Root(props) {
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(
+    document.URL.search("raw-clients") !== -1 ? 0 : 1
+  );
   const [showFloat, setShowFloat] = useState<boolean | null>(null);
 
-  const handleNav = (index?: number) => {
+  const handleNav = async (index?: number) => {
     setSelected(index);
     switch (index) {
       case 0:

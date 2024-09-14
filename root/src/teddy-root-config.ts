@@ -7,6 +7,15 @@ import {
 import microfrontendLayout from "./microfrontend-layout.html";
 import "./global/styles.css";
 
+const updateCookies = () => {
+  const date = new Date();
+  document.cookie = `last_visit=${date.toISOString()}`;
+
+  console.log("Cookies atualizados: ", document.cookie);
+};
+
+window.addEventListener("single-spa:routing-event", updateCookies);
+
 const routes = constructRoutes(microfrontendLayout);
 const applications = constructApplications({
   routes,

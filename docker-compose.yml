@@ -1,0 +1,36 @@
+services:
+  host:
+    build:
+      context: root
+      dockerfile: ./Dockerfile
+    ports:
+      - "9000:9000"
+    links:
+      - intro
+      - nav_bar
+      - raw_clients
+      - selected_clients
+  intro:
+    build:
+      context: intro
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+  nav_bar:
+    build:
+      context: nav_bar
+      dockerfile: ./Dockerfile
+    ports:
+      - "8081:8081"
+  raw_clients:
+    build:
+      context: raw_clients
+      dockerfile: ./Dockerfile
+    ports:
+      - "8082:8082"
+  selected_clients:
+    build:
+      context: selected_clients
+      dockerfile: ./Dockerfile
+    ports:
+      - "8083:8083"
