@@ -5,13 +5,13 @@ import {
   FlexList,
   NumberedPager,
   ClientCard,
-} from "../../intro/src/shared/components";
+} from "./shared/components";
 
-import { CLIENTS_MOCK } from "../../intro/src/shared/mocks/clients.mock";
+import { CLIENTS_MOCK } from "./shared/mocks/clients.mock";
 
 import { useState } from "react";
 
-import "../../intro/src/shared/components/typograph.css";
+import "./shared/components/typograph.css";
 import "./root.style.css";
 import {
   ConclusionModal,
@@ -19,8 +19,10 @@ import {
   EditModal,
   ExcludeModal,
 } from "./modals";
-import { UserDTO } from "../../intro/src/shared/interfaces/clients";
+import { UserDTO } from "./shared/interfaces/clients";
 import { useCookies } from "react-cookie";
+
+// const PageContainer = React.lazy(() => import("componentsIntro/PageContainer"));
 
 const SELECTABLE_LIMITS = [16, 12, 8, 4];
 
@@ -145,88 +147,90 @@ export default function Root(props) {
 
   return (
     <>
-      <PageContainer
-        style={{
-          width: "80%",
-          height: "100%",
-          margin: "0 10%",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          marginTop: 22,
-        }}
-      >
-        <div className="top_wrapper">
-          <span className="info_title">
-            <strong>{clients.length} </strong>
-            clientes encontrados:
-          </span>
-          <div className="select_wrapper">
-            <span>Clientes por página:</span>
-            <select
-              className="limit_select"
-              onChange={({ target: { value } }) => {
-                handleLimit(value);
-              }}
-            >
-              {SELECTABLE_LIMITS.map((val, index) => (
-                <option
-                  key={`select_option_${index}`}
-                  value={val}
-                  selected={val === limit}
-                >
-                  {val}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <FlexList
-          containerStyle={{
-            display: "flex",
-            width: "100%",
-            flexWrap: "wrap",
-            gap: "1.25rem",
-          }}
-          data={clients}
-          renderItem={(item, index) => {
-            return (
-              <ClientCard
-                key={`client_card_${index}`}
-                selected={
-                  savedClients.findIndex(({ id }) => id === item.id) !== -1
-                }
-                onPlusClick={(unselect) => {
-                  handleSelect(item, unselect);
-                }}
-                onEditClick={() => {
-                  setSelectedClient({
-                    ...item,
-                    id: index,
-                  });
-                  handleModal("edit");
-                }}
-                onTrashClick={() => {
-                  setSelectedClient({
-                    ...item,
-                    id: index,
-                  });
-                  handleModal("trash");
-                }}
-                {...item}
-              />
-            );
-          }}
-        />
-        <DefaultButton
-          onClick={() => handleModal("create")}
+      <React.Suspense fallback="Carregando...">
+        <PageContainer
           style={{
-            marginTop: 20,
+            width: "80%",
+            height: "100%",
+            margin: "0 10%",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            marginTop: 22,
           }}
         >
-          Criar cliente
-        </DefaultButton>
-        <NumberedPager pages={Number((256 / limit).toFixed(0))} />
-      </PageContainer>
+          <div className="top_wrapper">
+            <span className="info_title">
+              <strong>{clients.length} </strong>
+              clientes encontrados:
+            </span>
+            <div className="select_wrapper">
+              <span>Clientes por página:</span>
+              <select
+                className="limit_select"
+                onChange={({ target: { value } }) => {
+                  handleLimit(value);
+                }}
+              >
+                {SELECTABLE_LIMITS.map((val, index) => (
+                  <option
+                    key={`select_option_${index}`}
+                    value={val}
+                    selected={val === limit}
+                  >
+                    {val}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <FlexList
+            containerStyle={{
+              display: "flex",
+              width: "100%",
+              flexWrap: "wrap",
+              gap: "1.25rem",
+            }}
+            data={clients}
+            renderItem={(item, index) => {
+              return (
+                <ClientCard
+                  key={`client_card_${index}`}
+                  selected={
+                    savedClients.findIndex(({ id }) => id === item.id) !== -1
+                  }
+                  onPlusClick={(unselect) => {
+                    handleSelect(item, unselect);
+                  }}
+                  onEditClick={() => {
+                    setSelectedClient({
+                      ...item,
+                      id: index,
+                    });
+                    handleModal("edit");
+                  }}
+                  onTrashClick={() => {
+                    setSelectedClient({
+                      ...item,
+                      id: index,
+                    });
+                    handleModal("trash");
+                  }}
+                  {...item}
+                />
+              );
+            }}
+          />
+          <DefaultButton
+            onClick={() => handleModal("create")}
+            style={{
+              marginTop: 20,
+            }}
+          >
+            Criar cliente
+          </DefaultButton>
+          <NumberedPager pages={Number((256 / limit).toFixed(0))} />
+        </PageContainer>
+      </React.Suspense>
       <ConclusionModal
         isOpen={conclusionModalOpen}
         handleModal={() => handleModal("conclusion")}

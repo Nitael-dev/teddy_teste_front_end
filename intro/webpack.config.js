@@ -1,3 +1,4 @@
+const ModuleFederationPlugin = require("webpack").container;
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 

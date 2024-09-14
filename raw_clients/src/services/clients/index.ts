@@ -1,4 +1,4 @@
-import { UserDTO } from "../../../../intro/src/shared/interfaces/clients";
+import { UserDTO } from "../../shared/interfaces/clients";
 import { axiosConfig } from "../../api/axios-config";
 
 interface QueryParams {

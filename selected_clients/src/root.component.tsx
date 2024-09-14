@@ -3,12 +3,12 @@ import {
   DefaultButton,
   FlexList,
   ClientCard,
-} from "../../intro/src/shared/components/index";
+} from "./shared/components";
 
-import "../../intro/src/shared/components/typograph.css";
+import "./shared/components/typograph.css";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { UserDTO } from "../../intro/src/shared/interfaces/clients";
+import { UserDTO } from "./shared/interfaces/clients";
 
 export default function Root(props) {
   const [clients, setClients] = useState<UserDTO[]>([]);

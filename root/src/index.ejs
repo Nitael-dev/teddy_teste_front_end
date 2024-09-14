@@ -11,6 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/svg+xml" href=".z/favicon.svg" />
     <title>Teddy Open Finance</title>
 
     <!--
@@ -58,12 +59,10 @@
 
     <!-- Add your organization's prod import map URL to this script's src  -->
     <!-- <script type="systemjs-importmap" src="/importmap.json"></script> -->
-
     <% if (isLocal) { %>
     <script type="systemjs-importmap">
       {
         "imports": {
-          "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
           "@teddy/root-config": "//localhost:9000/teddy-root-config.js",
           "@teddy/intro": "//localhost:8080/teddy-intro.js",
           "@teddy/nav-bar": "//localhost:8081/teddy-nav-bar.js",

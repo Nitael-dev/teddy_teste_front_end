@@ -1,5 +1,5 @@
-import { DefaultButton } from "../../../../intro/src/shared/components/index";
-import { ClientProps } from "../../../../intro/src/shared/interfaces/clients/index";
+import { DefaultButton } from "../../shared/components";
+import { ClientProps } from "../../shared/interfaces/clients/index";
 import { ModalFrame } from "../modal-frame/modal-frame";
 
 interface ExcludeModalProps {

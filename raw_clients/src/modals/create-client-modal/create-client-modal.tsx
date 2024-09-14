@@ -1,11 +1,8 @@
 import { useState } from "react";
-import {
-  DefaultButton,
-  DefaultInput,
-} from "../../../../intro/src/shared/components/index";
+import { DefaultButton, DefaultInput } from "../../shared/components/index";
 import { ModalFrame } from "../modal-frame/modal-frame";
 import { moneyMask } from "../../utils/money-mask";
-import { UserDTO } from "../../../../intro/src/shared/interfaces/clients";
+import { UserDTO } from "../../shared/interfaces/clients";
 
 interface CreateModalProps {
   isOpen: boolean;
