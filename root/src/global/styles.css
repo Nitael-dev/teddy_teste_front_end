@@ -6,23 +6,27 @@
 
 :root {
   --white: #ffffff;
+  --black: #000000;
 
-  --gray-100: #e1e1e6;
-  --gray-300: #a8a8b3;
-  --gray-700: #323238;
-  --gray-800: #29292e;
-  --gray-850: #1f2729;
-  --gray-900: #121214;
+  --shadow: #0000001a;
+  --backdrop: #0000004d;
 
-  --cyan-500: #61dafb;
+  --gray-100: #d9d9d9;
+  --gray-300: #aaaaaa;
+  --gray-500: #666666;
 
-  --yellow-500: #eba417;
+  --background: #f5f5f5;
+
+  --red: #df0000;
+
+  --primary: #ec6724;
 }
 
 body {
-  background-color: var(--gray-900);
-  color: var(--white);
+  background-color: var(--background);
+  color: var(--black);
 }
+
 @media (max-width: 1080px) {
   html {
     font-size: 93.75%;
@@ -31,7 +35,7 @@ body {
 
 @media (max-width: 720px) {
   html {
-    font-size: 87.5%;
+    font-size: 88.889%;
   }
 }
 
@@ -46,6 +50,7 @@ button {
 
 button {
   cursor: pointer;
+  border: none;
 }
 
 a {

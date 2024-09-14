@@ -5,6 +5,6 @@
     "declarationDir": "dist"
   },
   "files": ["src/teddy-intro.tsx"],
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/**/**/*"],
   "exclude": ["src/**/*.test*"]
 }

@@ -18,11 +18,20 @@
   -->
 
   <main>
-    <route default>
+    <!-- <route default>
       <application name="@single-spa/welcome"></application>
-    </route>
-    <route path="/intro">
+    </route> -->
+    <route default>
       <application name="@teddy/intro"></application>
+    </route>
+    <route path="/home">
+      <application name="@teddy/nav-bar"></application>
+    </route>
+    <route path="/home/raw-clients">
+      <application name="@teddy/raw-clients"></application>
+    </route>
+    <route path="/home/selected-clients">
+      <application name="@teddy/selected-clients"></application>
     </route>
   </main>
 </single-spa-router>

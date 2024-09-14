@@ -11,8 +11,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./global/styles.css" />
-    <title>Root Config</title>
+    <title>Teddy Open Finance</title>
 
     <!--
     Remove this if you only support browsers that support async/await.
@@ -66,7 +65,10 @@
         "imports": {
           "@single-spa/welcome": "https://unpkg.com/single-spa-welcome/dist/single-spa-welcome.js",
           "@teddy/root-config": "//localhost:9000/teddy-root-config.js",
-          "@teddy/intro": "//localhost:8080/teddy-intro.js"
+          "@teddy/intro": "//localhost:8080/teddy-intro.js",
+          "@teddy/nav-bar": "//localhost:8081/teddy-nav-bar.js",
+          "@teddy/raw-clients": "//localhost:8082/teddy-raw-clients.js",
+          "@teddy/selected-clients": "//localhost:8083/teddy-selected-clients.js"
         }
       }
     </script>
